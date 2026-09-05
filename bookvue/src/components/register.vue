@@ -1,51 +1,43 @@
 <template>
   <div class="login-bg">
     <div class="login-wrap">
-      <a href="#/home" class="back-link">← 返回首页</a>
+      <a href="#/login" class="back-link">← 返回登录</a>
 
       <div class="login-card kr-card">
         <div class="login-head">
           <div class="belt-icon">
             <span class="core"></span>
           </div>
-          <h1>骑士登录</h1>
-          <p>KAMEN RIDER STORE</p>
+          <h1>骑士注册</h1>
+          <p>JOIN KAMEN RIDER STORE</p>
         </div>
 
         <div class="login-form">
           <div class="form-item">
-            <input
-              type="text"
-              class="kr-input"
-              placeholder="用户名"
-              v-model.trim="username"
-              @keyup.enter="login"
-            >
+            <input type="text" class="kr-input" placeholder="昵称" v-model.trim="nickname">
           </div>
           <div class="form-item">
-            <input
-              type="password"
-              class="kr-input"
-              placeholder="密码"
-              v-model.trim="password"
-              @keyup.enter="login"
-            >
+            <input type="text" class="kr-input" placeholder="用户名" v-model.trim="username">
+          </div>
+          <div class="form-item">
+            <input type="password" class="kr-input" placeholder="密码（至少 3 位）" v-model.trim="password">
+          </div>
+          <div class="form-item">
+            <input type="password" class="kr-input" placeholder="确认密码" v-model.trim="password2">
           </div>
 
           <p class="error-msg" v-if="error">{{ error }}</p>
 
-          <button class="kr-btn kr-btn-gold btn-block" :disabled="loading" @click="login">
-            {{ loading ? '变身中…' : '变 身 登 录' }}
+          <button class="kr-btn kr-btn-gold btn-block" :disabled="loading" @click="register">
+            {{ loading ? '注册中…' : '注 册 变 身' }}
           </button>
 
           <div class="form-footer">
-            <a href="#/xilie">忘记密码？</a>
-            <a href="#/register">还没有账号，立即注册</a>
+            <span style="color:#64748b">已有账号？</span>
+            <a href="#/login">直接登录</a>
           </div>
         </div>
       </div>
-
-      <p class="tip">测试账号：admin / 123456</p>
     </div>
   </div>
 </template>
@@ -56,31 +48,56 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      nickname: '',
       username: '',
       password: '',
+      password2: '',
       error: '',
       loading: false
     }
   },
   methods: {
-    login() {
+    register() {
       this.error = ''
-      if (!this.username || !this.password) {
-        this.error = '请输入用户名和密码'
+      if (!this.nickname || !this.username || !this.password) {
+        this.error = '请填写完整信息'
+        return
+      }
+      if (this.password.length < 3) {
+        this.error = '密码至少 3 位'
+        return
+      }
+      if (this.password !== this.password2) {
+        this.error = '两次输入的密码不一致'
         return
       }
       this.loading = true
+
+      // 先检查用户名是否已存在
       axios({
         url: 'http://localhost:3000/users',
         method: 'GET',
-        params: { username: this.username, password: this.password }
+        params: { username: this.username }
       })
         .then(response => {
           if (response.data.length > 0) {
-            localStorage.setItem('kamenUser', JSON.stringify(response.data[0]))
-            this.$router.push('/home')
-          } else {
-            this.error = '用户名或密码错误，变身失败'
+            this.error = '该用户名已被注册'
+            return null
+          }
+          return axios({
+            url: 'http://localhost:3000/users',
+            method: 'POST',
+            data: {
+              username: this.username,
+              password: this.password,
+              nickname: this.nickname
+            }
+          })
+        })
+        .then(response => {
+          if (response) {
+            alert('注册成功，请登录')
+            this.$router.push('/login')
           }
         })
         .catch(() => {
@@ -141,7 +158,6 @@ export default {
   color: #64748b;
 }
 
-/* 腰带造型图标 */
 .belt-icon {
   width: 74px;
   height: 34px;
@@ -152,7 +168,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 .belt-icon .core {
   width: 20px;
@@ -167,7 +182,7 @@ export default {
   50% { box-shadow: 0 0 26px rgba(245, 197, 24, 1); }
 }
 
-.form-item { margin-bottom: 18px; }
+.form-item { margin-bottom: 16px; }
 
 .error-msg {
   margin: 0 0 14px;
@@ -186,12 +201,4 @@ export default {
 }
 .form-footer a { color: #94a3b8; }
 .form-footer a:hover { color: #f5c518; }
-
-.tip {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 12px;
-  color: #64748b;
-  letter-spacing: 1px;
-}
 </style>
