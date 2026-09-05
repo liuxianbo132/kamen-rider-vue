@@ -3,7 +3,8 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const request = axios.create({
-  baseURL: '/api', // 经 vite 代理转发到后端
+  // 开发走 Vite 代理（/api），生产直接请求 Render 后端（CORS 已开启）
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 10000
 })
 
