@@ -1,0 +1,15 @@
+# Render 部署配置：后端 Web Service
+# 使用方式：GitHub 登录 Render → New Blueprint → 选择本仓库，自动按此配置部署
+services:
+  - type: web
+    name: kamen-rider-mall-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: JWT_SECRET
+        generateValue: true
