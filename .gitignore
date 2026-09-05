@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# build output
+dist/
+
+# logs
+*.log
+npm-debug.log*
