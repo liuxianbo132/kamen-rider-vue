@@ -13,6 +13,14 @@ const PORT = process.env.PORT || 3001
 app.use(cors())            // 允许跨域（前后端分离部署）
 app.use(express.json())    // 解析 JSON 请求体
 
+// 健康检查与根路径：供云平台探活，也避免直接访问服务地址时看到 404
+app.get('/health', (req, res) => {
+  res.json({ code: 200, data: { status: 'ok' }, message: 'success' })
+})
+app.get('/', (req, res) => {
+  res.json({ code: 200, data: { name: '假面骑士商城 API', version: '3.0.0' }, message: '服务运行中' })
+})
+
 // 业务路由
 app.use('/api/auth', authRoutes)
 app.use('/api/goods', goodsRoutes)
