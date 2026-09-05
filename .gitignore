@@ -8,6 +8,12 @@ node_modules/
 # build output
 dist/
 
+# runtime data (SQLite 数据库，启动后端时自动生成)
+backend/data/
+
+# env secrets
+backend/.env
+
 # archives
 *.rar
 
