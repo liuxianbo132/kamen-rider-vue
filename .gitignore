@@ -8,6 +8,9 @@ node_modules/
 # build output
 dist/
 
+# archives
+*.rar
+
 # logs
 *.log
 npm-debug.log*
