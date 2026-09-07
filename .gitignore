@@ -20,3 +20,10 @@ backend/.env
 # logs
 *.log
 npm-debug.log*
+
+# tooling / scratch（不纳入仓库）
+.workbuddy/
+.trae/
+verify/
+修改/
+frontend/vite.config.js.timestamp-*.mjs
