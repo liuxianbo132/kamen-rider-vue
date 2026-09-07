@@ -1,7 +1,7 @@
 <template>
   <div class="auth-page">
     <el-card class="auth-card">
-      <h2 class="title">假面骑士商城</h2>
+      <h2 class="title">卡面来打小站</h2>
       <p class="subtitle">DRIVER COLLECTION · 用户注册</p>
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent>
@@ -94,45 +94,37 @@ async function onSubmit() {
 </script>
 
 <style scoped>
+/* 注册页：顶部背景 banner（不全屏 cover） + 纸张底色卡片区 */
 .auth-page {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 假面骑士登录背景图 */
-  background: url('/images/login-bg.jpg') center / cover no-repeat;
+  min-height: 100vh;
+  background: var(--page-bg);
   position: relative;
 }
 
-/* 背景压暗，突出注册卡片 */
-.auth-page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(11, 14, 20, 0.78);
-}
-
+/* 表单卡片：页面居中（暂不使用背景图） */
 .auth-card {
-  width: 400px;
-  padding: 12px 8px;
+  width: min(400px, 92vw);
+  margin: 64px auto 48px;
+  padding: 36px 24px 16px;
   position: relative;
-  background: #161a23;
-  border: 1px solid #2a2f3d;
-  border-radius: 10px;
-  box-shadow: 0 0 40px rgba(245, 197, 24, 0.12);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(23, 28, 40, 0.14);
+  z-index: 1;
 }
 
 .title {
   text-align: center;
   font-size: 22px;
   margin-bottom: 4px;
-  color: #f5c518;
+  color: var(--accent-dark);
   letter-spacing: 2px;
 }
 
 .subtitle {
   text-align: center;
-  color: #b7bcc9;
+  color: var(--muted);
   margin-bottom: 24px;
   font-size: 13px;
   letter-spacing: 1px;
@@ -145,7 +137,7 @@ async function onSubmit() {
 .footer-tip {
   text-align: center;
   font-size: 14px;
-  color: #b7bcc9;
+  color: #4a453d;
   margin-top: 4px;
 }
 </style>

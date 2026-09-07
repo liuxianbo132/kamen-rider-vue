@@ -18,6 +18,13 @@ export function list(req, res) {
   ok(res, goodsModel.findAll())
 }
 
+// 商品详情（公开，前台商品详情页）
+export function detail(req, res) {
+  const goods = goodsModel.findById(Number(req.params.id))
+  if (!goods) return fail(res, 404, '商品不存在')
+  ok(res, goods)
+}
+
 // 新增商品（仅管理员）
 export function create(req, res) {
   const error = validate(req.body)

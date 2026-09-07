@@ -6,6 +6,10 @@ import authRoutes from './routes/auth.js'
 import goodsRoutes from './routes/goods.js'
 import usersRoutes from './routes/users.js'
 import bannerRoutes from './routes/banners.js'
+import newsRoutes from './routes/news.js'
+import postsRoutes from './routes/posts.js'
+import collectionsRoutes from './routes/collections.js'
+import ridersRoutes from './routes/riders.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -18,7 +22,7 @@ app.get('/health', (req, res) => {
   res.json({ code: 200, data: { status: 'ok' }, message: 'success' })
 })
 app.get('/', (req, res) => {
-  res.json({ code: 200, data: { name: '假面骑士商城 API', version: '3.0.0' }, message: '服务运行中' })
+  res.json({ code: 200, data: { name: '假面骑士商城 API', version: '4.0.0' }, message: '服务运行中' })
 })
 
 // 业务路由
@@ -26,6 +30,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/goods', goodsRoutes)
 app.use('/api/users', usersRoutes)
 app.use('/api/banners', bannerRoutes)
+app.use('/api/news', newsRoutes)
+app.use('/api/posts', postsRoutes)
+app.use('/api/collections', collectionsRoutes)
+app.use('/api/riders', ridersRoutes)
 
 // 404 兜底
 app.use((req, res) => {

@@ -2,11 +2,14 @@
   <!-- 管理后台布局：左侧菜单 + 顶栏 + 内容区 -->
   <el-container class="admin-layout">
     <el-aside width="200px">
-      <div class="logo">⚡ 骑士商城 · 管理后台</div>
+      <div class="logo">卡面来打小站 · 管理后台</div>
       <el-menu :default-active="route.path" router class="menu">
-        <el-menu-item index="/admin/goods">📦 商品管理</el-menu-item>
-        <el-menu-item index="/admin/users">👥 用户管理</el-menu-item>
-        <el-menu-item index="/admin/banners">🖼️ 轮播图管理</el-menu-item>
+        <el-menu-item index="/admin/goods">商品管理</el-menu-item>
+        <el-menu-item index="/admin/users">用户管理</el-menu-item>
+        <el-menu-item index="/admin/banners">轮播图管理</el-menu-item>
+        <el-menu-item index="/admin/news">新闻管理</el-menu-item>
+        <el-menu-item index="/admin/posts">文章管理</el-menu-item>
+        <el-menu-item index="/admin/collections">收藏管理</el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -47,8 +50,8 @@ function onLogout() {
 }
 
 .el-aside {
-  background: #161a23;
-  border-right: 1px solid #2a2f3d;
+  background: #ffffff;
+  border-right: 1px solid #eceef2;
 }
 
 .logo {
@@ -58,8 +61,8 @@ function onLogout() {
   justify-content: center;
   font-size: 16px;
   font-weight: 600;
-  border-bottom: 1px solid #2a2f3d;
-  color: #f5c518;
+  border-bottom: 1px solid #eceef2;
+  color: #d4a017;
   letter-spacing: 1px;
 }
 
@@ -68,18 +71,18 @@ function onLogout() {
 }
 
 .header {
-  background: #161a23;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #2a2f3d;
+  border-bottom: 1px solid #eceef2;
 }
 
 .welcome {
-  color: #e8eaf0;
+  color: #23262e;
 }
 
 .main {
-  background: #0b0e14;
+  background: #f4f5f7;
 }
 </style>

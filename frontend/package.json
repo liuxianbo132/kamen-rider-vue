@@ -1,7 +1,7 @@
 {
   "name": "kamen-rider-mall-frontend",
-  "version": "3.0.0",
-  "description": "假面骑士商城 DRIVER COLLECTION - 前端",
+  "version": "5.0.0",
+  "description": "假面骑士商城 DRIVER COLLECTION - 前端（全家桶）",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/motion": "^3.0.3",
     "axios": "^1.7.7",
     "element-plus": "^2.8.0",
+    "opencc-js": "^1.4.2",
     "pinia": "^2.2.2",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3"

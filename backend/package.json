@@ -1,7 +1,7 @@
 {
   "name": "kamen-rider-mall-backend",
-  "version": "3.0.0",
-  "description": "假面骑士商城 DRIVER COLLECTION - 后端服务",
+  "version": "5.0.0",
+  "description": "假面骑士商城 DRIVER COLLECTION - 后端服务（全家桶）",
   "type": "module",
   "main": "src/app.js",
   "scripts": {
