@@ -1,5 +1,8 @@
-# Render 部署配置：后端 Web Service
+# Render 部署配置（Blueprint）
 # 使用方式：GitHub 登录 Render → New Blueprint → 选择本仓库，自动按此配置部署
+#
+# 服务 1：后端 API（Node Web Service）
+# 服务 2：前端静态站（Vite 构建产物，自动 HTTPS + CDN）
 services:
   - type: web
     name: kamen-rider-mall-api
@@ -13,3 +16,21 @@ services:
         value: "24"
       - key: JWT_SECRET
         generateValue: true
+
+  - type: web
+    name: kamen-rider-mall-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      # 前端直连后端公网地址（后端已开启 CORS）
+      - key: VITE_API_BASE_URL
+        value: https://kamen-rider-mall-api.onrender.com/api
+    routes:
+      # SPA 路由回退：/shop/1、/riders/9 等前端路由直接刷新时不 404
+      - type: rewrite
+        source: /*
+        destination: /index.html
