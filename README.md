@@ -7,7 +7,7 @@
 ## 技术栈
 
 - **前端**：Vue 3（`<script setup>`）+ Vite + Vue Router + Pinia + Element Plus + Axios + @vueuse/motion
-- **后端**：Express + SQLite（`better-sqlite3`）+ JWT + bcryptjs + cors
+- **后端**：Express + Node 内置 SQLite（`node:sqlite`）+ JWT + bcryptjs + cors
 - **部署**：后端 Render（Blueprint `render.yaml`）、前端 Vercel（`vercel.json`）
 
 ## 目录结构
@@ -79,13 +79,22 @@ cd frontend  && npm run dev
 | `backend`（Render） | `JWT_SECRET` | 由 Render 自动生成 |
 | `backend`（Render） | `NODE_VERSION=24` | Node 运行版本 |
 
-## 部署（在线）
+## 部署（在线，已上线）
 
-1. **后端（Render）**：仓库根 `render.yaml` 为 Blueprint 配置，`rootDir: backend`，`npm install` + `npm start`。推送后自动部署，公开地址 `https://kamen-rider-mall-api.onrender.com`，健康检查 `GET /health`。
-2. **前端（Vercel）**：构建命令 `vite build`，输出 `dist/`。`frontend/vercel.json` 将 `/api/*` 重写到 Render 后端；同时生产环境 `.env.production` 直连后端地址。
-3. **触发**：推送到 `master` 分支即触发 Render 与 Vercel 自动构建。
+- **后端 API**：`https://kamen-rider-mall-api.onrender.com`（Render Web Service，免费层，HTTPS）
+- **前端站点**：`https://kamen-rider-mall-web.onrender.com`（Render 静态站，HTTPS，国内可直连）
 
-> 部署要点：图鉴 seed 数据 `verify/riders_all_final.json` 已纳入版本管理，Render 构建时后端可正常初始化骑士数据。
+**部署方式**：仓库根 `render.yaml` 为 Blueprint（双服务：后端 Web Service `kamen-rider-mall-api` + 前端静态站 `kamen-rider-mall-web`）。推送到 `master` 分支即触发 Render 自动构建部署，无需手动操作。
+
+> 部署要点：图鉴 seed 数据 `verify/riders_all_final.json` 已纳入版本管理，构建时后端正常初始化 38 位骑士数据。前端构建注入 `VITE_API_BASE_URL`（见 `frontend/.env.production` 与 `render.yaml` 环境变量）直连后端公网地址，源码无任何 `localhost` 硬编码。
+
+## 已知问题 / 后续可优化
+
+1. **数据持久化（需关注）**：Render 免费层为临时文件系统，容器重建 / 休眠后本地 SQLite（`backend/data/mall.db`）数据会丢失（用户注册、下单等动态数据）。
+   - 升级 Render Starter（$7/月，可挂持久盘，需绑卡）
+   - 或迁移至**方案 B 香港轻量云服务器**（¥99/年起，支付宝，零代码改动，国内访问更快、数据落盘持久、无冷启动）
+2. **后端冷启动**：免费层空闲约 15 分钟后休眠，下次请求需 10–30s 唤醒。前端静态站本身常驻 CDN，不休眠。
+3. **Vercel 方案已弃用**：早期曾试过 Vercel + Render，但 Vercel 对未认领的匿名临时部署返回 403（`X-Vercel-Mitigated: deny`），且 `*.vercel.app` 国内可达性不稳，故统一迁至 Render 双服务部署。
 
 ## 版本记录
 
