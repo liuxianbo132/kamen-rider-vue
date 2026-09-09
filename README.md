@@ -96,6 +96,13 @@ cd frontend  && npm run dev
 2. **后端冷启动**：免费层空闲约 15 分钟后休眠，下次请求需 10–30s 唤醒。前端静态站本身常驻 CDN，不休眠。
 3. **Vercel 方案已弃用**：早期曾试过 Vercel + Render，但 Vercel 对未认领的匿名临时部署返回 403（`X-Vercel-Mitigated: deny`），且 `*.vercel.app` 国内可达性不稳，故统一迁至 Render 双服务部署。
 
+## 图片素材
+
+- **首页轮播**（`frontend/public/images/banner-w/ooo/deno.jpg`）：来源[假面骑士官网图鉴](https://www.kamen-rider-official.com/zukan/)剧照（每骑士 5 组官方图中的第 2/3 组，与图鉴页主视觉不重复），4:3 归一化为 1200×900；东映版权素材，仅站内演示用途。
+- **收藏室**（`frontend/public/images/collection-1~9.jpg`）：统一 1200×900（4:3）归一化处理；其中 `collection-8/9` 来源于 Wikimedia Commons 真实照片，遵循 CC BY-SA 授权：
+  - [Anime Expo 2013 - Kamen Rider Cosplay](https://commons.wikimedia.org/wiki/File:Anime_Expo_2013_-_Kamen_Rider_Cosplay.jpg)（CC BY-SA 2.0）
+  - [Cosplayer of Kamen Rider Agito at ACGHK 2022](https://commons.wikimedia.org/wiki/File:Cosplayer_of_Kamen_Rider_Agito_at_ACGHK_2022_-_D2T1728a.jpg)（CC BY-SA 4.0）
+
 ## 版本记录
 
 - **v5.0.0**：新增「图鉴（Archive）」模块（38 位骑士，昭和/平成/令和分代）；新增资讯/帖子/收藏/休闲模块与对应后台管理；首页轮播修复为 3 张并去除与精选阅读重复项；全站移动端适配；登录/注册页移除背景（居中卡片）。

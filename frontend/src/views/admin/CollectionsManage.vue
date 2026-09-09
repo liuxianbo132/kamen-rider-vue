@@ -132,6 +132,11 @@ const coverOptions = [
   '/images/xilie.jpg',
   '/images/xilie2.jpg',
   '/images/xilie3.jpg',
+  '/images/banner-w.jpg',
+  '/images/banner-ooo.jpg',
+  '/images/banner-deno.jpg',
+  '/images/collection-8.jpg',
+  '/images/collection-9.jpg',
   '/images/hero.jpg'
 ]
 

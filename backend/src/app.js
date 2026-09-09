@@ -10,6 +10,7 @@ import newsRoutes from './routes/news.js'
 import postsRoutes from './routes/posts.js'
 import collectionsRoutes from './routes/collections.js'
 import ridersRoutes from './routes/riders.js'
+import captchaRoutes from './routes/captcha.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -34,6 +35,7 @@ app.use('/api/news', newsRoutes)
 app.use('/api/posts', postsRoutes)
 app.use('/api/collections', collectionsRoutes)
 app.use('/api/riders', ridersRoutes)
+app.use('/api/captcha', captchaRoutes)
 
 // 404 兜底
 app.use((req, res) => {

@@ -27,6 +27,11 @@
             @keyup.enter="onSubmit"
           />
         </el-form-item>
+
+        <el-form-item label="验证码">
+          <CaptchaInput ref="captchaRef" @enter="onSubmit" />
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" size="large" class="submit-btn" :loading="loading" @click="onSubmit">
             注 册
@@ -46,9 +51,11 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { registerApi } from '../api/auth'
+import CaptchaInput from '../components/CaptchaInput.vue'
 
 const router = useRouter()
 const formRef = ref()
+const captchaRef = ref()
 const loading = ref(false)
 
 const form = reactive({
@@ -79,14 +86,27 @@ const rules = {
   ]
 }
 
-// 提交注册：成功后跳转登录页
+// 提交注册：后端校验验证码 → 成功后跳转登录页
 async function onSubmit() {
   await formRef.value.validate()
+  const { id, text } = captchaRef.value.getValue()
+  if (!text) {
+    ElMessage.error('请输入验证码')
+    return
+  }
   loading.value = true
   try {
-    await registerApi({ username: form.username, password: form.password })
+    await registerApi({
+      username: form.username,
+      password: form.password,
+      captchaId: id,
+      captchaText: text
+    })
     ElMessage.success('注册成功，请登录')
     router.push('/login')
+  } catch (err) {
+    // 注册失败（含验证码错误）：刷新验证码并清空输入
+    captchaRef.value.refresh()
   } finally {
     loading.value = false
   }
@@ -99,12 +119,15 @@ async function onSubmit() {
   min-height: 100vh;
   background: var(--page-bg);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 表单卡片：页面居中（暂不使用背景图） */
 .auth-card {
   width: min(400px, 92vw);
-  margin: 64px auto 48px;
+  margin: 0;
   padding: 36px 24px 16px;
   position: relative;
   background: var(--surface);

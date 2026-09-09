@@ -7,7 +7,7 @@
       <section class="hero">
         <div class="hero-text">
           <p class="hero-eyebrow">A KAMEN RIDER NOTES</p>
-          <h1 class="hero-title">记录变身，<br>也记录热爱。</h1>
+          <h1 class="hero-title">敌我同源、悲剧英雄，<br>手握恶的力量，却选择守护人类</h1>
           <p class="hero-intro">本站收集假面骑士的资讯、设定、收藏与日常——从最新情报到腰带陈列，从台词摘录到主题空间探访。</p>
           <div class="hero-actions">
             <button class="btn btn-primary" @click="router.push('/news?tab=posts')">阅读最新文章</button>

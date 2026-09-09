@@ -3,16 +3,21 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { userModel } from '../models/userModel.js'
 import { ok, fail } from '../utils/respond.js'
+import { verifyCaptcha } from '../utils/captcha.js'
 
 // JWT 密钥：优先读 .env 配置，未配置时使用默认值（保证克隆后开箱可跑）
 const JWT_SECRET = process.env.JWT_SECRET || 'kamen-rider-mall-dev-secret'
 
 // 用户注册
 export function register(req, res) {
-  const { username, password } = req.body || {}
+  const { username, password, captchaId, captchaText } = req.body || {}
   if (!username || !password) return fail(res, 400, '用户名和密码不能为空')
   if (String(username).length > 50) return fail(res, 400, '用户名长度不能超过 50 个字符')
   if (String(password).length < 6) return fail(res, 400, '密码长度不能少于 6 位')
+  // 后端真校验验证码（5 分钟有效、一次性）；失败直接拦截
+  if (!verifyCaptcha(captchaId, captchaText)) {
+    return fail(res, 400, '验证码错误或已过期，请点击刷新')
+  }
 
   // 后端校验用户名唯一性
   if (userModel.findByUsername(username)) return fail(res, 409, '用户名已存在，请更换')
@@ -25,7 +30,11 @@ export function register(req, res) {
 
 // 用户登录：校验通过后签发 JWT
 export function login(req, res) {
-  const { username, password } = req.body || {}
+  const { username, password, captchaId, captchaText } = req.body || {}
+  // 优先校验验证码，拦截机器人暴力尝试
+  if (!verifyCaptcha(captchaId, captchaText)) {
+    return fail(res, 400, '验证码错误或已过期，请点击刷新')
+  }
   if (!username || !password) return fail(res, 400, '用户名和密码不能为空')
 
   const user = userModel.findByUsername(username)

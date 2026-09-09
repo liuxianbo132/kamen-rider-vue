@@ -180,13 +180,14 @@ upsertGoods.run('ZZZ 泽兹驱动器', 245, 55, '令和系列', '/images/zzz.jpg
 db.prepare("UPDATE goods SET image_url='/images/goods-faiz.jpg', description='流线型手机变身腰带，加速形态的咆哮' WHERE name='555 FAIZ 驱动器'").run()
 db.prepare("UPDATE goods SET image_url='/images/geats.jpg', description='假面骑士Geats，白色天使大逃杀变身系统' WHERE name='极狐驱动器（Geats）'").run()
 
-// 3 条轮播图（假面骑士主题）
+// 3 条轮播图（W → OOO → 电王；图源为 public/images/riders 图鉴高清皮套照的 4:3 裁剪特写版）
+// banner-w.jpg / banner-ooo.jpg / banner-deno.jpg 均为 1200x900
 const bannerCount = db.prepare('SELECT COUNT(*) AS c FROM banners').get()
 if (bannerCount.c === 0) {
   const insert = db.prepare('INSERT INTO banners (image_url, link_url, sort_order) VALUES (?, ?, ?)')
-  insert.run('/images/hero.jpg', '/', 1)
-  insert.run('/images/123.jpg', '/', 2)
-  insert.run('/images/xilie3.jpg', '/', 3)
+  insert.run('/images/banner-w.jpg', '/', 1)
+  insert.run('/images/banner-ooo.jpg', '/', 2)
+  insert.run('/images/banner-deno.jpg', '/', 3)
 }
 
 // 演示新闻（按标题去重追加，标题已存在则跳过，可对历史库增量新增；content 为 JSON 段落数组文本）
@@ -346,7 +347,7 @@ for (const p of postsSeed) {
 const collectionsSeed = [
   {
     title: 'W 驱动器（Cyclone & Joker）',
-    cover_image: '/images/1.jpg',
+    cover_image: '/images/collection-1.jpg',
     type: 'belt',
     series: '假面骑士W',
     acquired_at: '2024-03-15',
@@ -357,7 +358,7 @@ const collectionsSeed = [
   },
   {
     title: '极狐驱动器（Geats）',
-    cover_image: '/images/geats.jpg',
+    cover_image: '/images/collection-2.jpg',
     type: 'belt',
     series: '假面骑士Geats',
     acquired_at: '2025-11-02',
@@ -368,7 +369,7 @@ const collectionsSeed = [
   },
   {
     title: '鸣海侦探事务所主题店探访',
-    cover_image: '/images/xilie.jpg',
+    cover_image: '/images/collection-3.jpg',
     type: 'place',
     series: '假面骑士W',
     acquired_at: '2024-08-10',
@@ -379,7 +380,7 @@ const collectionsSeed = [
   },
   {
     title: '555 FAIZ 驱动器',
-    cover_image: '/images/goods-faiz.jpg',
+    cover_image: '/images/collection-4.jpg',
     type: 'belt',
     series: '假面骑士555',
     acquired_at: '',
@@ -390,7 +391,7 @@ const collectionsSeed = [
   },
   {
     title: 'ZZZ 泽兹驱动器',
-    cover_image: '/images/zzz.jpg',
+    cover_image: '/images/collection-5.jpg',
     type: 'belt',
     series: '假面骑士ZZZ',
     acquired_at: '',
@@ -401,7 +402,7 @@ const collectionsSeed = [
   },
   {
     title: 'Build 驱动器',
-    cover_image: '/images/8.jpg',
+    cover_image: '/images/collection-6.jpg',
     type: 'belt',
     series: '假面骑士Build',
     acquired_at: '2023-06-20',
@@ -412,13 +413,35 @@ const collectionsSeed = [
   },
   {
     title: '主题餐饮一景（Rider Cafe）',
-    cover_image: '/images/xilie2.jpg',
+    cover_image: '/images/collection-7.jpg',
     type: 'place',
     series: '假面骑士',
     acquired_at: '2024-08-10',
     status: 'owned',
     notes: '同一趟主题店行程里的餐饮区，拉花是骑士之眼。',
     tags: ['主题店', '餐饮'],
+    is_featured: 0
+  },
+  {
+    title: '漫展巡礼：昭和骑士同框',
+    cover_image: '/images/collection-8.jpg',
+    type: 'place',
+    series: '假面骑士',
+    acquired_at: '2025-07-01',
+    status: 'owned',
+    notes: 'Anime Expo 现场的昭和骑士团合影环节，从初代到 Sky，一脉相承的变身姿势。',
+    tags: ['漫展', '探访'],
+    is_featured: 0
+  },
+  {
+    title: '商场骑士主题展打卡',
+    cover_image: '/images/collection-9.jpg',
+    type: 'place',
+    series: '假面骑士Agito',
+    acquired_at: '2025-08-24',
+    status: 'owned',
+    notes: 'ACGHK 现场的 Agito 展位与周边陈列，排了半小时队才抢到的合影机位。',
+    tags: ['漫展', '陈列'],
     is_featured: 0
   }
 ]
