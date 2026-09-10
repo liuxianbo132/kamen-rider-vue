@@ -122,12 +122,20 @@ try {
 
 // ==================== 初始数据 ====================
 
-// 默认管理员 admin / 123456（密码用 bcrypt 现场加密，保证密文真实有效）
+// 初始管理员：密码由环境变量 ADMIN_PASSWORD 注入，禁止硬编码。
+// 未设置时跳过创建——公开仓库若预置固定密码，等于给所有人留一把万能钥匙。
 const userCount = db.prepare('SELECT COUNT(*) AS c FROM users').get()
 if (userCount.c === 0) {
-  const adminHash = bcrypt.hashSync('123456', 10)
-  db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)')
-    .run('admin', adminHash, 'admin')
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (adminPassword && adminPassword.length >= 8) {
+    const adminHash = bcrypt.hashSync(adminPassword, 10)
+    db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)')
+      .run('admin', adminHash, 'admin')
+    console.log('[init] 已根据 ADMIN_PASSWORD 创建管理员账号 admin')
+  } else {
+    console.warn('[init] 未设置 ADMIN_PASSWORD（或长度不足 8 位），已跳过创建默认管理员。')
+    console.warn('[init] 可在 backend/.env 中配置 ADMIN_PASSWORD 后重启，或通过注册接口创建账号。')
+  }
 }
 
 // 演示商品（假面骑士驱动器腰带，图片为前端 public/images 静态资源）

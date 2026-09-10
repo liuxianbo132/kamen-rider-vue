@@ -1,8 +1,6 @@
 // 认证与权限中间件
 import jwt from 'jsonwebtoken'
-
-// JWT 密钥：与 authController 保持一致（优先 .env，缺省用默认值）
-const JWT_SECRET = process.env.JWT_SECRET || 'kamen-rider-mall-dev-secret'
+import { JWT_SECRET } from '../config/secrets.js'
 
 // 登录认证：从请求头 Authorization: Bearer <token> 中解析 JWT
 export function authRequired(req, res, next) {

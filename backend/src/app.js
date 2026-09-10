@@ -50,5 +50,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`后端服务已启动: http://localhost:${PORT}`)
-  console.log('默认管理员账号: admin / 123456')
+  // 安全：不再打印默认管理员密码（仓库公开后等同公开后台入口）
 })

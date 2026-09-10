@@ -4,9 +4,7 @@ import jwt from 'jsonwebtoken'
 import { userModel } from '../models/userModel.js'
 import { ok, fail } from '../utils/respond.js'
 import { verifyCaptcha } from '../utils/captcha.js'
-
-// JWT 密钥：优先读 .env 配置，未配置时使用默认值（保证克隆后开箱可跑）
-const JWT_SECRET = process.env.JWT_SECRET || 'kamen-rider-mall-dev-secret'
+import { JWT_SECRET } from '../config/secrets.js'
 
 // 用户注册
 export function register(req, res) {

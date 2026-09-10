@@ -42,9 +42,12 @@ CREATE TABLE IF NOT EXISTS banners (
 -- 初始数据
 -- ============================================================
 
--- 初始化管理员（账号 admin / 密码 123456，密文由 bcryptjs 加密生成）
-INSERT INTO users (username, password, role) VALUES
-('admin', '$2a$10$0ep80hhmkjPiEyTZaG6ZxOC7EThnDuQ.UDspb2.VJd4EYQrsRHlC.', 'admin');
+-- 管理员账号：此处不预置固定密码。仓库公开后，任何写死的密码都等于公开后门。
+-- MySQL 部署时请先生成 bcrypt 密文（密码建议 >= 12 位）：
+--   node -e "console.log(require('bcryptjs').hashSync('你的强密码', 10))"
+-- 然后把输出的密文填入下面 VALUES 的第二个字段，并去掉注释后执行。
+-- INSERT INTO users (username, password, role) VALUES
+-- ('admin', '<此处粘贴上面生成的 bcrypt 密文>', 'admin');
 
 -- 10 条演示商品（假面骑士驱动器腰带，图片为前端 public/images 静态资源）
 INSERT INTO goods (name, price, stock, category, image_url, description) VALUES
