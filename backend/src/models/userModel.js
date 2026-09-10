@@ -23,6 +23,15 @@ export const userModel = {
   updateRole: (id, role) =>
     db.prepare('UPDATE users SET role = ? WHERE id = ?').run(role, id),
 
+  // 修改密码：同时自增 token_version，使该用户已签发的旧 token 立即失效
+  updatePassword: (id, password) =>
+    db.prepare('UPDATE users SET password = ?, token_version = token_version + 1 WHERE id = ?')
+      .run(password, id),
+
+  // 查询 token 版本（用于校验旧 token 是否已因改密失效）
+  getTokenVersion: (id) =>
+    db.prepare('SELECT token_version FROM users WHERE id = ?').get(id),
+
   // 删除用户
   remove: (id) =>
     db.prepare('DELETE FROM users WHERE id = ?').run(id)

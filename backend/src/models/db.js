@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+  token_version INTEGER NOT NULL DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -112,6 +113,14 @@ CREATE TABLE IF NOT EXISTS riders (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 `)
+
+// 幂等迁移：历史库补充 token_version 列（已存在则忽略）
+// 用途：修改密码后自增，使该用户已签发的旧 token 立即失效
+try {
+  db.exec('ALTER TABLE users ADD COLUMN token_version INTEGER NOT NULL DEFAULT 0')
+} catch {
+  /* 列已存在，忽略 */
+}
 
 // 幂等迁移：历史库补充 url 列（已存在则忽略）
 try {

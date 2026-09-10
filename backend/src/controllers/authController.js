@@ -41,9 +41,9 @@ export function login(req, res) {
     return fail(res, 401, '用户名或密码错误')
   }
 
-  // 签发 7 天有效期的 token
+  // 签发 7 天有效期的 token（带 tokenVersion：改密后旧 token 会被中间件判定失效）
   const token = jwt.sign(
-    { id: user.id, username: user.username, role: user.role },
+    { id: user.id, username: user.username, role: user.role, tokenVersion: user.token_version },
     JWT_SECRET,
     { expiresIn: '7d' }
   )
@@ -55,4 +55,24 @@ export function me(req, res) {
   const user = userModel.findById(req.user.id)
   if (!user) return fail(res, 404, '用户不存在')
   ok(res, user)
+}
+
+// 修改当前登录用户自己的密码
+// 必须校验旧密码：防止 token 泄露后攻击者直接改密把账号锁死
+export function changePassword(req, res) {
+  const { oldPassword, newPassword } = req.body || {}
+  if (!oldPassword || !newPassword) return fail(res, 400, '旧密码和新密码不能为空')
+  if (String(newPassword).length < 8) return fail(res, 400, '新密码长度不能少于 8 位')
+  if (String(newPassword) === String(oldPassword)) return fail(res, 400, '新密码不能与旧密码相同')
+
+  // findById 不返回密码，这里需取完整记录做 bcrypt 校验
+  const user = userModel.findByUsername(req.user.username)
+  if (!user) return fail(res, 404, '用户不存在')
+  if (!bcrypt.compareSync(String(oldPassword), user.password)) {
+    return fail(res, 401, '旧密码不正确')
+  }
+
+  // 更新密码的同时自增 token_version，使该用户此前签发的所有 token 立即失效
+  userModel.updatePassword(user.id, bcrypt.hashSync(String(newPassword), 10))
+  ok(res, null, '密码修改成功，请重新登录')
 }

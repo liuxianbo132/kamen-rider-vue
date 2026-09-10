@@ -12,3 +12,6 @@ export const meApi = () => request.get('/auth/me')
 
 // 获取图形验证码（后端生成 SVG）
 export const getCaptchaApi = () => request.get('/captcha')
+
+// 修改当前登录用户自己的密码（成功后旧 token 失效，需重新登录）
+export const changePasswordApi = (data) => request.put('/auth/password', data)
