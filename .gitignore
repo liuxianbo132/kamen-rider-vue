@@ -14,6 +14,9 @@ backend/data/
 # env secrets
 backend/.env
 
+# 明文口令文件（勿入库）
+password.txt
+
 # archives
 *.rar
 
