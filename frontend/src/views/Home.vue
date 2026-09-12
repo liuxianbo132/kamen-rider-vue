@@ -986,4 +986,27 @@ a.feed-item:hover .feed-title { color: var(--accent-dark); }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
+@media (max-width: 480px) {
+  .hero { padding: 32px 16px 20px; gap: 24px; }
+  .hero-title { font-size: 26px; }
+  .hero-intro { font-size: 14px; }
+
+  .section { padding: 32px 16px; }
+
+  .feature-main { border-radius: 10px; }
+  .fm-img { min-height: 160px; }
+  .fm-body { padding: 18px 18px; }
+  .fm-title { font-size: 18px; }
+
+  .feed-item { padding: 12px 16px; }
+
+  .collect-grid,
+  .topic-grid { gap: 12px; }
+
+  .about { margin: 0 14px; padding: 28px 18px; }
+  .about-title { font-size: 21px; }
+  .about-text { font-size: 14px; }
+
+  .footer-inner { padding: 22px 16px; }
+}
 </style>
