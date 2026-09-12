@@ -890,7 +890,7 @@ a.feed-item:hover .feed-title { color: var(--accent-dark); }
   margin: 0 0 24px;
 }
 
-.about-tags { display: flex; gap: 10px; margin-bottom: 24px; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
 
 .about-tags span {
   font-size: 12px;
